@@ -105,13 +105,13 @@ class Wienerlinien extends utils.Adapter {
 								self.setObjectNotExists(station + 'Line', {
 									type: 'state',
 									common: {
-										name: 'Linie',
+										name: 'Line',
 										type: 'string',
 										role: 'name',
 									},
 									native: {}
 								});
-								self.setState(station + 'Linie', {val: monitor.lines[0].name, ack: true});
+								self.setState(station + 'Line', {val: monitor.lines[0].name, ack: true});
 								
 								self.setObjectNotExists(station + 'Towards', {
 									type: 'state',
