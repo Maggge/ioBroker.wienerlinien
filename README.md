@@ -19,7 +19,7 @@ Live Monitor for Wiener Linien departures.
 ## Changelog
 
 ### 0.0.1
-* (Markus Mair) initial release
+* (Maggge) initial release
 
 ## License
 MIT License
