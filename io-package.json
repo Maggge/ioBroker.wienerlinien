@@ -59,6 +59,7 @@
         "loglevel": "info",
         "mode": "schedule",
         "allowInit": true,
+		"schedule": "*/1 * * * *",
         "type": "vehicle",
         "compact": true,
         "connectionType": "cloud",
