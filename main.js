@@ -7,6 +7,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
+const request     = require('request');
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
@@ -21,10 +22,8 @@ class Wienerlinien extends utils.Adapter {
             ...options,
             name: 'wienerlinien',
         });
+		this.killTimeout = null;
         this.on('ready', this.onReady.bind(this));
-        this.on('stateChange', this.onStateChange.bind(this));
-        // this.on('objectChange', this.onObjectChange.bind(this));
-        // this.on('message', this.onMessage.bind(this));
         this.on('unload', this.onUnload.bind(this));
     }
 
@@ -33,11 +32,14 @@ class Wienerlinien extends utils.Adapter {
      */
     async onReady() {
         // Initialize your adapter here
+		
+		const senderKey = this.config.senderKey;
+        const stationID = this.config.stationID;
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
-        this.log.info('config option1: ' + this.config.option1);
-        this.log.info('config option2: ' + this.config.option2);
+        this.log.info('config senderKey: ' + this.config.senderKey);
+        this.log.info('config stationID: ' + this.config.stationID);
 
         /*
         For every state in the system there has to be also an object of type state
@@ -83,6 +85,10 @@ class Wienerlinien extends utils.Adapter {
 
         result = await this.checkGroupAsync('admin', 'admin');
         this.log.info('check group user admin group admin: ' + result);
+		
+		
+		
+		this.killTimeout = setTimeout(this.stop.bind(this), 10000);
     }
 
     /**
@@ -91,11 +97,12 @@ class Wienerlinien extends utils.Adapter {
      */
     onUnload(callback) {
         try {
-            // Here you must clear all timeouts or intervals that may still be active
-            // clearTimeout(timeout1);
-            // clearTimeout(timeout2);
-            // ...
-            // clearInterval(interval1);
+            if (this.killTimeout) {
+                this.log.debug('clearing kill timeout');
+                clearTimeout(this.killTimeout);
+            }
+
+            this.log.debug('cleaned everything up...');
 
             callback();
         } catch (e) {
@@ -103,22 +110,7 @@ class Wienerlinien extends utils.Adapter {
         }
     }
 
-    // If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-    // You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-    // /**
-    //  * Is called if a subscribed object changes
-    //  * @param {string} id
-    //  * @param {ioBroker.Object | null | undefined} obj
-    //  */
-    // onObjectChange(id, obj) {
-    //     if (obj) {
-    //         // The object was changed
-    //         this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-    //     } else {
-    //         // The object was deleted
-    //         this.log.info(`object ${id} deleted`);
-    //     }
-    // }
+   
 
     /**
      * Is called if a subscribed state changes
@@ -134,24 +126,6 @@ class Wienerlinien extends utils.Adapter {
             this.log.info(`state ${id} deleted`);
         }
     }
-
-    // If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-    // /**
-    //  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-    //  * Using this method requires "common.message" property to be set to true in io-package.json
-    //  * @param {ioBroker.Message} obj
-    //  */
-    // onMessage(obj) {
-    //     if (typeof obj === 'object' && obj.message) {
-    //         if (obj.command === 'send') {
-    //             // e.g. send email or pushover or whatever
-    //             this.log.info('send command');
-
-    //             // Send response in callback if required
-    //             if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-    //         }
-    //     }
-    // }
 
 }
 
