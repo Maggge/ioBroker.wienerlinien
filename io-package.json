@@ -1,0 +1,98 @@
+{
+    "common": {
+        "name": "wienerlinien",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Wiener Linien",
+        "titleLang": {
+            "en": "Wiener Linien",
+            "de": "Wiener Linien",
+            "ru": "Винер Линьен",
+            "pt": "Wiener Linien",
+            "nl": "Wiener Linien",
+            "fr": "Wiener Linien",
+            "it": "Wiener Linien",
+            "es": "Wiener Linien",
+            "pl": "Wiener Linien",
+            "zh-cn": "维也纳李宁"
+        },
+        "desc": {
+            "en": "Departure Monitor",
+            "de": "Abflugmonitor",
+            "ru": "Монитор вылета",
+            "pt": "Monitor de Partida",
+            "nl": "Vertrekmonitor",
+            "fr": "Moniteur de départ",
+            "it": "Monitor di partenza",
+            "es": "Monitor de salida",
+            "pl": "Monitor wyjazdu",
+            "zh-cn": "出发监视器"
+        },
+        "authors": [
+            "Markus Mair <magge.mair@gmail.com>"
+        ],
+        "keywords": [
+            "traffic",
+            "iobroker",
+            "adapter"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "wienerlinien.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/Maggge/ioBroker.wienerlinien/master/admin/wienerlinien.png",
+        "readme": "https://github.com/Maggge/ioBroker.wienerlinien/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "schedule",
+        "allowInit": true,
+        "type": "vehicle",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "Wiener Linien",
+                "de": "Wiener Linien",
+                "ru": "Винер Линьен",
+                "pt": "Wiener Linien",
+                "nl": "Wiener Linien",
+                "fr": "Wiener Linien",
+                "it": "Wiener Linien",
+                "es": "Wiener Linien",
+                "pl": "Wiener Linien",
+                "zh-cn": "维也纳李宁"
+            },
+            "link": "",
+            "fa-icon": "info"
+        },
+        "supportCustoms": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "option1": true,
+        "option2": "42"
+    },
+    "objects": [],
+    "instanceObjects": []
+}
