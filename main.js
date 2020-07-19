@@ -42,60 +42,144 @@ class Wienerlinien extends utils.Adapter {
         this.log.info('config senderKey: ' + this.config.senderKey);
         this.log.info('config stationID: ' + this.config.stationID);
 		
-		this.log.debug('request started');
-		this.log.debug('http://www.wienerlinien.at/ogd_realtime/monitor?rbl=' + stationID +'&sender=' + senderKey + '/');
-		
+		this.log.debug('request started');		
 				
-		
-		
-		
-		
-		
+		request(
+			{
+				url: 'http://www.wienerlinien.at/ogd_realtime/monitor?rbl=' + stationID +'&sender=' + senderKey,
+				json: true,
+				time: true,
+				timeout: 4500
+			},
+			(error, response, content) => {
+				self.log.debug('remote request done');
 
-        /*
-        For every state in the system there has to be also an object of type state
-        Here a simple template for a boolean variable named "testVariable"
-        Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-        */
-        await this.setObjectNotExistsAsync('testVariable', {
-            type: 'state',
-            common: {
-                name: 'testVariable',
-                type: 'boolean',
-                role: 'indicator',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
+				if (response) {
+					self.log.debug('received data (' + response.statusCode + '): ' + JSON.stringify(content));
 
-        // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-        this.subscribeStates('testVariable');
-        // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-        // this.subscribeStates('lights.*');
-        // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-        // this.subscribeStates('*');
+					self.setObjectNotExists('responseCode', {
+						type: 'state',
+						common: {
+							name: 'responseCode',
+							type: 'number',
+							role: 'value',
+							read: true,
+							write: false
+						},
+						native: {}
+					});
+					self.setState('responseCode', {val: response.statusCode, ack: true});
 
-        /*
-            setState examples
-            you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-        */
-        // the variable testVariable is set to true as command (ack=false)
-        await this.setStateAsync('testVariable', true);
+					self.setObjectNotExists('responseTime', {
+						type: 'state',
+						common: {
+							name: 'responseTime',
+							type: 'number',
+							role: 'value',
+							unit: 'ms',
+							read: true,
+							write: false
+						},
+						native: {}
+					});
+					self.setState('responseTime', {val: parseInt(response.timingPhases.total), ack: true});
 
-        // same thing, but the value is flagged "ack"
-        // ack should be always set to true if the value is received from or acknowledged from the target system
-        await this.setStateAsync('testVariable', { val: true, ack: true });
-
-        // same thing, but the state is deleted after 30s (getState will return null afterwards)
-        await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
-
-        // examples for the checkPassword/checkGroup functions
-        let result = await this.checkPasswordAsync('admin', 'iobroker');
-        this.log.info('check user admin pw iobroker: ' + result);
-
-        result = await this.checkGroupAsync('admin', 'admin');
-        this.log.info('check group user admin group admin: ' + result);
+					if (!error && response.statusCode == 200) {
+						if (content) {
+							for(const key in content.data.monitors){
+								const monitor = content.data.monitors[key];
+								
+								const station = monitor.locationStop.properties.title + '.';
+								
+								self.setObjectNotExists(station + 'Station', {
+									type: 'state',
+									common: {
+										name: 'Station',
+										type: 'string',
+										role: 'name',
+									},
+									native: {}
+								});
+								self.setState(station + 'Station', {val: monitor.locationStop.properties.title, ack: true});
+								
+								self.setObjectNotExists(station + 'Line', {
+									type: 'state',
+									common: {
+										name: 'Linie',
+										type: 'string',
+										role: 'name',
+									},
+									native: {}
+								});
+								self.setState(station + 'Linie', {val: monitor.lines[0].name, ack: true});
+								
+								self.setObjectNotExists(station + 'Towards', {
+									type: 'state',
+									common: {
+										name: 'Towards',
+										type: 'string',
+										role: 'name',
+									},
+									native: {}
+								});
+								self.setState(station + 'Towards', {val: monitor.lines[0].towards, ack: true});
+								
+								self.setObjectNotExists(station + 'BarrierFree', {
+									type: 'state',
+									common: {
+										name: 'BarrierFree',
+										type: 'bool',
+										role: 'value',
+									},
+									native: {}
+								});
+								self.setState(station + 'BarrierFree', {val: monitor.lines[0].barrierFree, ack: true});
+								
+								self.setObjectNotExists(station + 'Departure1', {
+									type: 'state',
+									common: {
+										name: 'Departure1',
+										type: 'number',
+										role: 'value',
+										unit: 'min',
+									},
+									native: {}
+								});
+								self.setState(station + 'Departure1', {val: monitor.lines[0].departures.departure[0].departureTime.countdown, ack: true});
+								
+								self.setObjectNotExists(station + 'Departure2', {
+									type: 'state',
+									common: {
+										name: 'Departure2',
+										type: 'number',
+										role: 'value',
+										unit: 'min',
+									},
+									native: {}
+								});
+								self.setState(station + 'Departure2', {val: monitor.lines[0].departures.departure[1].departureTime.countdown, ack: true});
+								
+								self.setObjectNotExists(station + 'Departure3', {
+									type: 'state',
+									common: {
+										name: 'Departure3',
+										type: 'number',
+										role: 'value',
+										unit: 'min',
+									},
+									native: {}
+								});
+								self.setState(station + 'Departure3', {val: monitor.lines[0].departures.departure[2].departureTime.countdown, ack: true});
+							}
+							
+						}
+					}
+						
+				} else if (error) {
+					self.log.warn(error);
+				}
+			}
+		);
 		
 		
 		
