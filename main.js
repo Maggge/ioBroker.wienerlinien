@@ -35,7 +35,13 @@ class Wienerlinien extends utils.Adapter {
 		const self = this;
 		
 		const senderKey = this.config.senderKey;
-        const stationID = this.config.stationID;
+        const stationID = this.config.stationID.split(";");
+		var stationIDs = "";
+		
+		for(const id in stationID){
+			stationIDs = stationIDs + 'rbl=' + stationID[key] + '&';
+		}
+		this.log.debug(stationIDs);
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
@@ -46,7 +52,7 @@ class Wienerlinien extends utils.Adapter {
 				
 		request(
 			{
-				url: 'http://www.wienerlinien.at/ogd_realtime/monitor?rbl=' + stationID +'&sender=' + senderKey,
+				url: 'http://www.wienerlinien.at/ogd_realtime/monitor?' + stationIDs + 'sender=' + senderKey,
 				json: true,
 				time: true,
 				timeout: 4500
