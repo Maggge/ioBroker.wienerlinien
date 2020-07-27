@@ -141,7 +141,7 @@ class Wienerlinien extends utils.Adapter {
 								for(const key in monitor.lines[0].departures.departure){
 									const departure = monitor.lines[0].departures.departure[key];
 								
-									const d = 'Departure' + i;
+									const d = 'Departure' + String(i);
 									
 									self.setObjectNotExists(station + d, {
 										type: 'state',
