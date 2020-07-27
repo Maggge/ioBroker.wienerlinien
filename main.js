@@ -95,7 +95,7 @@ class Wienerlinien extends utils.Adapter {
 							for(const key in content.data.monitors){
 								const monitor = content.data.monitors[key];
 								
-								const station = monitor.locationStop.properties.title + '.';
+								const station = monitor.locationStop.properties.title + ' - ' +  monitor.lines[0].towards + '.';
 								
 								self.setObjectNotExists(station + 'Station', {
 									type: 'state',
