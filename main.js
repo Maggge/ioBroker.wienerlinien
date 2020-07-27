@@ -161,7 +161,7 @@ class Wienerlinien extends utils.Adapter {
 									self.setState(station + d, {val: departure.departureTime.countdown, ack: true});
 									
 									var vehicleBarrierFree = false;
-									if(departure.hasOwnProperty('vehicle'){
+									if(departure.hasOwnProperty('vehicle')){
 										vehicleBarrierFree = departure.vehicle.barrierFree;
 									}
 									else{
