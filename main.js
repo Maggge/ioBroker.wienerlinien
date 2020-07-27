@@ -140,7 +140,7 @@ class Wienerlinien extends utils.Adapter {
 								for(const key in monitor.lines[0].departures.departure){
 									const departure = monitor.lines[0].departures.departure[key];
 								
-									const d = 'Departure' + String(key);
+									const d = 'Departure' + key.toString();
 									
 									self.setObjectNotExists(station + d, {
 										type: 'state',
@@ -155,6 +155,8 @@ class Wienerlinien extends utils.Adapter {
 									self.setState(station + d, {val: departure.departureTime.countdown, ack: true});
 									
 								}
+								
+								
 						}
 					}
 						
