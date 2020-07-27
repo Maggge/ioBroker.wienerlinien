@@ -124,66 +124,40 @@ class Wienerlinien extends utils.Adapter {
 								});
 								self.setState(station + 'Towards', {val: monitor.lines[0].towards, ack: true});
 								
-								self.setObjectNotExists(station + 'BarrierFree', {
+								self.setObjectNotExists(station + 'StationBarrierFree', {
 									type: 'state',
 									common: {
-										name: 'BarrierFree',
+										name: 'StationBarrierFree',
 										type: 'bool',
 										role: 'value',
 									},
 									native: {}
 								});
-								self.setState(station + 'BarrierFree', {val: monitor.lines[0].barrierFree, ack: true});
-								
-								self.setObjectNotExists(station + 'BarrierFree1', {
-									type: 'state',
-									common: {
-										name: 'BarrierFree1',
-										type: 'bool',
-										role: 'value',
-									},
-									native: {}
-								});
-								self.setState(station + 'BarrierFree1', {val: monitor.lines[0].departures.departure[2].vehicle.barrierFree, ack: true});
+								self.setState(station + 'StationBarrierFree', {val: monitor.lines[0].barrierFree, ack: true});
 								
 								
-								self.setObjectNotExists(station + 'Departure1', {
-									type: 'state',
-									common: {
-										name: 'Departure1',
-										type: 'number',
-										role: 'value',
-										unit: 'min',
-									},
-									native: {}
-								});
-								self.setState(station + 'Departure1', {val: monitor.lines[0].departures.departure[0].departureTime.countdown, ack: true});
 								
-								self.setObjectNotExists(station + 'Departure2', {
-									type: 'state',
-									common: {
-										name: 'Departure2',
-										type: 'number',
-										role: 'value',
-										unit: 'min',
-									},
-									native: {}
-								});
-								self.setState(station + 'Departure2', {val: monitor.lines[0].departures.departure[1].departureTime.countdown, ack: true});
+								var i = 0;
+								for(const key in monitor.lines[0].departures.departure){
+									const departure = monitor.lines[0].departures.departure[key];
 								
-								self.setObjectNotExists(station + 'Departure3', {
-									type: 'state',
-									common: {
-										name: 'Departure3',
-										type: 'number',
-										role: 'value',
-										unit: 'min',
-									},
-									native: {}
-								});
-								self.setState(station + 'Departure3', {val: monitor.lines[0].departures.departure[2].departureTime.countdown, ack: true});
-							}
-							
+									const d = 'Departure' + i;
+									
+									self.setObjectNotExists(station + d, {
+										type: 'state',
+										common: {
+											name: d,
+											type: 'number',
+											role: 'value',
+											unit: 'min',
+										},
+										native: {}
+									});
+									self.setState(station + d, {val: monitor.lines[0].departures.departure[i].departureTime.countdown, ack: true});
+									
+									
+									i++;
+								}
 						}
 					}
 						
