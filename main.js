@@ -153,7 +153,7 @@ class Wienerlinien extends utils.Adapter {
 										},
 										native: {}
 									});
-									self.setState(station + d, {val: monitor.lines[0].departures.departure[i].departureTime.countdown, ack: true});
+									self.setState(station + d, {val: departure.departureTime.countdown, ack: true});
 									
 									
 									i++;
