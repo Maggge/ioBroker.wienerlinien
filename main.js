@@ -124,16 +124,38 @@ class Wienerlinien extends utils.Adapter {
 								});
 								self.setState(station + 'Towards', {val: monitor.lines[0].towards, ack: true});
 								
-								self.setObjectNotExists(station + 'BarrierFree', {
+								self.setObjectNotExists(station + 'BarrierFree1', {
 									type: 'state',
 									common: {
-										name: 'BarrierFree',
+										name: 'BarrierFree1',
 										type: 'bool',
 										role: 'value',
 									},
 									native: {}
 								});
-								self.setState(station + 'BarrierFree', {val: monitor.lines[0].barrierFree, ack: true});
+								self.setState(station + 'BarrierFree1', {val: monitor.lines[0].departures.departure[0].vehicle.barrierFree, ack: true});
+								
+								self.setObjectNotExists(station + 'BarrierFree2', {
+									type: 'state',
+									common: {
+										name: 'BarrierFree2',
+										type: 'bool',
+										role: 'value',
+									},
+									native: {}
+								});
+								self.setState(station + 'BarrierFree2', {val: monitor.lines[0].departures.departure[1].vehicle.barrierFree, ack: true});
+								
+								self.setObjectNotExists(station + 'BarrierFree3', {
+									type: 'state',
+									common: {
+										name: 'BarrierFree3',
+										type: 'bool',
+										role: 'value',
+									},
+									native: {}
+								});
+								self.setState(station + 'BarrierFree3', {val: monitor.lines[0].departures.departure[2].vehicle.barrierFree, ack: true});
 								
 								self.setObjectNotExists(station + 'Departure1', {
 									type: 'state',
