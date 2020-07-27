@@ -39,7 +39,7 @@ class Wienerlinien extends utils.Adapter {
 		var stationIDs = "";
 		
 		for(const id in stationID){
-			stationIDs = stationIDs + 'rbl=' + stationID[key] + '&';
+			stationIDs = stationIDs + 'rbl=' + stationID[id] + '&';
 		}
 		this.log.debug(stationIDs);
 
