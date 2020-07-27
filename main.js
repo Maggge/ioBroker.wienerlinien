@@ -57,10 +57,10 @@ class Wienerlinien extends utils.Adapter {
 				if (response) {
 					self.log.debug('received data (' + response.statusCode + '): ' + JSON.stringify(content));
 
-					self.setObjectNotExists('responseCode', {
+					self.setObjectNotExists('lastResponseCode', {
 						type: 'state',
 						common: {
-							name: 'responseCode',
+							name: 'lastResponseCode',
 							type: 'number',
 							role: 'value',
 							read: true,
@@ -68,12 +68,12 @@ class Wienerlinien extends utils.Adapter {
 						},
 						native: {}
 					});
-					self.setState('responseCode', {val: response.statusCode, ack: true});
+					self.setState('lastResponseCode', {val: response.statusCode, ack: true});
 
-					self.setObjectNotExists('responseTime', {
+					self.setObjectNotExists('lastResponseTime', {
 						type: 'state',
 						common: {
-							name: 'responseTime',
+							name: 'lastResponseTime',
 							type: 'number',
 							role: 'value',
 							unit: 'ms',
@@ -82,7 +82,7 @@ class Wienerlinien extends utils.Adapter {
 						},
 						native: {}
 					});
-					self.setState('responseTime', {val: parseInt(response.timingPhases.total), ack: true});
+					self.setState('lastResponseTime', {val: parseInt(response.timingPhases.total), ack: true});
 
 					if (!error && response.statusCode == 200) {
 						if (content) {
@@ -123,6 +123,17 @@ class Wienerlinien extends utils.Adapter {
 									native: {}
 								});
 								self.setState(station + 'Towards', {val: monitor.lines[0].towards, ack: true});
+								
+								self.setObjectNotExists(station + 'BarrierFree', {
+									type: 'state',
+									common: {
+										name: 'BarrierFree',
+										type: 'bool',
+										role: 'value',
+									},
+									native: {}
+								});
+								self.setState(station + 'BarrierFree', {val: monitor.lines[0].barrierFree, ack: true});
 								
 								self.setObjectNotExists(station + 'BarrierFree1', {
 									type: 'state',
