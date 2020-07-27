@@ -144,7 +144,7 @@ class Wienerlinien extends utils.Adapter {
 									},
 									native: {}
 								});
-								self.setState(station + 'BarrierFree1', {val: monitor.lines[0].departures.departure[3].vehicle.barrierFree, ack: true});
+								self.setState(station + 'BarrierFree1', {val: monitor.lines[0].departures.vehicle.barrierFree, ack: true});
 								
 								self.setObjectNotExists(station + 'BarrierFree2', {
 									type: 'state',
