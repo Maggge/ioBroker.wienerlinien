@@ -137,7 +137,7 @@ class Wienerlinien extends utils.Adapter {
 								
 								
 								
-								var i = 0;
+								var i = 1;
 								for(const key in monitor.lines[0].departures.departure){
 									const departure = monitor.lines[0].departures.departure[key];
 								
@@ -156,7 +156,7 @@ class Wienerlinien extends utils.Adapter {
 									self.setState(station + d, {val: departure.departureTime.countdown, ack: true});
 									
 									
-									i++;
+									i = i + 1;
 								}
 						}
 					}
