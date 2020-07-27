@@ -156,7 +156,7 @@ class Wienerlinien extends utils.Adapter {
 									
 								}
 								
-								
+							}
 						}
 					}
 						
