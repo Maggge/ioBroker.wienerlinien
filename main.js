@@ -160,6 +160,25 @@ class Wienerlinien extends utils.Adapter {
 									});
 									self.setState(station + d, {val: departure.departureTime.countdown, ack: true});
 									
+									var vehicleBarrierFree = false;
+									if(departure.hasOwnProperty('vehicle'){
+										vehicleBarrierFree = departure.vehicle.barrierFree;
+									}
+									else{
+										vehicleBarrierFree = monitor.lines[0].barrierFree;
+									}
+									
+									self.setObjectNotExists(station + d + '_vehicleBarrierFree', {
+										type: 'state',
+										common: {
+											name: d + '_vehicleBarrierFree',
+											type: 'bool',
+											role: 'value',
+										},
+										native: {}
+									});
+									self.setState(station + d + '_vehicleBarrierFree', {val: vehicleBarrierFree, ack: true});
+
 								}
 								
 							}
