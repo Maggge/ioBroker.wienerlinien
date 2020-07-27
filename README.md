@@ -18,6 +18,9 @@ Live Monitor for Wiener Linien departures.
 
 ## Changelog
 
+### 0.0.2
+* (Maggge) initial release
+
 ### 0.0.1
 * (Maggge) initial release
 
